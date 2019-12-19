@@ -33,6 +33,15 @@ public class ProductController {
         return productrepository.findAll();
     }
 
+    @GetMapping("/product/discount/up")
+    public List<Product> getAllOrderByDiscountAsc(){
+        return productrepository.findByDiscountOrderAsc();
+    }
+
+    @GetMapping("/product/discount/down")
+    public List<Product> getAllOrderByDiscountDesc(){
+        return productrepository.findByDiscountOrderDesc();
+    }
     @GetMapping("/product/{id}")
     public Product getProductById(@PathVariable(value="id")Integer id){
         return productrepository.findById(id)
@@ -45,18 +54,99 @@ public class ProductController {
         return productrepository.findByCategory(category);
     }
 
+    @GetMapping("/product/category/{category}/FP/Asc")
+    public List<Product> findByCategoryFPAsc(@PathVariable(value="category" )Integer category){
+        return productrepository.findByCategoryFPAsc(category);
+    }
 
-    // By category availability mapping
+    @GetMapping("/product/category/{category}/FP/Desc")
+    public List<Product> findByCategoryFPDesc(@PathVariable(value="category" )Integer category){
+        return productrepository.findByCategoryFPDesc(category);
+    }
+
+    @GetMapping("/product/category/{category}/SP/Asc")
+    public List<Product> findByCategorySPAsc(@PathVariable(value="category" )Integer category){
+        return productrepository.findByCategorySPAsc(category);
+    }
+
+    @GetMapping("/product/category/{category}/SP/Desc")
+    public List<Product> findByCategorySPDesc(@PathVariable(value="category" )Integer category) {
+        return productrepository.findByCategorySPDesc(category);
+    }
+
+    @GetMapping("/product/category/{category}/D/Asc")
+    public List<Product> findByCategoryDAsc(@PathVariable(value="category" )Integer category){
+        return productrepository.findByCategoryDAsc(category);
+    }
+
+    @GetMapping("/product/category/{category}/D/Desc")
+    public List<Product> findByCategoryDDesc(@PathVariable(value="category" )Integer category) {
+        return productrepository.findByCategoryDDesc(category);
+    }
+
+        // By category availability mapping
+
     @GetMapping("/product/category/true/{category}")
     public List<Product> findByCategoryInstock(@PathVariable(value="category" )Integer category){
-
         return productrepository.findByCategoryAndInstock(category);
     }
+    @GetMapping("/product/category/true/{category}/SP/Asc")
+    public List<Product> findByCategoryAndInstockOrderBySPAsc(@PathVariable(value="category" )Integer category){
+        return productrepository.findByCategoryAndInstockOrderBySPAsc(category);
+    }
+    @GetMapping("/product/category/true/{category}/SP/Desc")
+    public List<Product> findByCategoryInstockOrderBySPDesc(@PathVariable(value="category" )Integer category){
+        return productrepository.findByCategoryAndInstockOrderBySPDesc(category);
+    }
+
+
+    @GetMapping("/product/category/true/{category}/FP/Asc")
+    public List<Product> findByCategoryInstockOrderByFPAsc(@PathVariable(value="category" )Integer category){
+        return productrepository.findByCategoryAndInstockOrderByFPAsc(category);
+    }
+    @GetMapping("/product/category/true/{category}/FP/Desc")
+    public List<Product> findByCategoryInstockOrderByFPDesc(@PathVariable(value="category" )Integer category){
+        return productrepository.findByCategoryAndInstockOrderByFPDesc(category);
+    }
+
+    @GetMapping("/product/category/true/{category}/D/Asc")
+    public List<Product> findByCategoryInstockOrderByDAsc(@PathVariable(value="category" )Integer category){
+        return productrepository.findByCategoryAndInstockOrderByDAsc(category);
+    }
+    @GetMapping("/product/category/true/{category}/D/Desc")
+    public List<Product> findByCategoryInstockOrderByDDesc(@PathVariable(value="category" )Integer category){
+        return productrepository.findByCategoryAndInstockOrderByDDesc(category);
+    }
+
+
 
     @GetMapping("/product/category/false/{category}")
     public List<Product> findByCategoryOutstock(@PathVariable(value="category" )Integer category){
         return productrepository.findByCategoryAndOutstock(category);
-
+    }
+    @GetMapping("/product/category/false/{category}/SP/Asc")
+    public List<Product> findByCategoryAndOutstockOrderBySPAsc(@PathVariable(value="category" )Integer category){
+        return productrepository.findByCategoryAndOutstockOrderBySPAsc(category);
+    }
+    @GetMapping("/product/category/false/{category}/SP/Desc")
+    public List<Product> findByCategoryOustockOrderBySPDesc(@PathVariable(value="category" )Integer category){
+        return productrepository.findByCategoryAndOutstockOrderBySPDesc(category);
+    }
+    @GetMapping("/product/category/false/{category}/FP/Asc")
+    public List<Product> findByCategoryAndOutstockOrderByFPAsc(@PathVariable(value="category" )Integer category){
+        return productrepository.findByCategoryAndOutstockOrderByFPAsc(category);
+    }
+    @GetMapping("/product/category/false/{category}/FP/Desc")
+    public List<Product> findByCategoryOutstockOrderByFPDesc(@PathVariable(value="category" )Integer category){
+        return productrepository.findByCategoryAndOutstockOrderByFPDesc(category);
+    }
+    @GetMapping("/product/category/false/{category}/D/Asc")
+    public List<Product> findByCategoryOutstockOrderByDAsc(@PathVariable(value="category" )Integer category){
+        return productrepository.findByCategoryAndOutstockOrderByDAsc(category);
+    }
+    @GetMapping("/product/category/false/{category}/D/Desc")
+    public List<Product> findByCategoryOutstockOrderByDDesc(@PathVariable(value="category" )Integer category){
+        return productrepository.findByCategoryAndOutstockOrderByDDesc(category);
     }
 
     //By full price mapping
@@ -81,19 +171,12 @@ public class ProductController {
         return productrepository.findBySalePriceOrderAsc();
     };
 
-    // by discount mapping
-//    @GetMapping("/product/discount/down")
-//    public List<Product> findByOrderByDiscountDesc(){
-//        return productrepository.findByDiscountOrderDesc();
-//    };
-//    @GetMapping("/product/discount/up")
-//    public List<Product> findByOrderByDiscountAsc(){
-//        return productrepository.findByDiscountOrderAsc();
-//    };
+
 
 
     @PostMapping("/product/new")
     public Product creatProduct(@RequestBody Product product){
+
         return productrepository.save(product);
     }
 
@@ -112,7 +195,7 @@ public class ProductController {
          return updatedProduct;
     }
 
-    @DeleteMapping("/Product/delete/{ID}")
+    @DeleteMapping("/product/delete/{Id}")
     public ResponseEntity<?> deleteSupplier(@PathVariable(value = "Id")Integer Id){
         Product product = productrepository.findById(Id)
                 .orElseThrow(()-> new ResourceNotFoundException("Products","id","id"));

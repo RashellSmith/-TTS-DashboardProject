@@ -23,7 +23,7 @@ public class SupplierController {
     }
 
 
-    @GetMapping("/supplier/{supplier}")
+    @GetMapping("/supplier/{supplierId}")
     public Supplier getSupplierById(@PathVariable(value = "supplierId") Integer supplier){
         return supplierRepository.findById(supplier)
                 .orElseThrow(() -> new ResourceNotFoundException("suppliers", "supplier", supplier));

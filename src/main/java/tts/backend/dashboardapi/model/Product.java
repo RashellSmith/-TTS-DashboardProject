@@ -4,6 +4,8 @@ package tts.backend.dashboardapi.model;
 import org.hibernate.annotations.Formula;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.io.Serializable;
 
 
@@ -14,7 +16,7 @@ import java.io.Serializable;
 public class Product  implements  Serializable{
     public Product() {
     }
-    public Product(Integer id, String productName,Category category, double fullPrice, double salePrice, boolean availability, Supplier supplier, double discount){
+    public Product(Integer id, String productName,Category category, double fullPrice, double salePrice, boolean availability, Supplier supplier, String discount){
         this.id = id;
         this.productName = productName;
         this.category = category;
@@ -33,17 +35,21 @@ public class Product  implements  Serializable{
     private Integer id;
 
     @Column(name = "product_name")
+    @NotBlank(message = "Product name is mandatory")
     private String productName;
 
 
     @ManyToOne
     @JoinColumn(name="category")
+    @NotBlank(message = "Product name is mandatory")
     private Category category;
 
     @Column(name = "full_price")
+    @Positive
     private double fullPrice;
 
     @Column(name = "sale_price")
+    @Positive
     private double salePrice;
 
     @Column(name = "availability")
@@ -52,23 +58,24 @@ public class Product  implements  Serializable{
 
     @ManyToOne
     @JoinColumn(name = "supplier")
+    @NotBlank(message = "Product name is mandatory")
     private  Supplier supplier;
 
-   // @Formula("full_price - sale_price/full_price")
-    @Transient
-    public double discount;
+    //@Formula("full_price - sale_price/full_price")
+    @Column(name="discount")
+    public String discount;
 
-    public double getDiscount() {
+    public String getDiscount() {
         return discount;
     }
 
-    public void setDiscount(double discount) {
+    public void setDiscount(String discount) {
         this.discount = discount;
     }
-    public double calcDiscount(){
-        discount =(long)(((this.fullPrice - this.salePrice) / this.fullPrice)* 100);
-       return Math.round(discount);
-    }
+//    public double calcDiscount(){
+//        discount =(long)(((this.fullPrice - this.salePrice) / this.fullPrice *100));
+//       return Math.round(discount);
+//    }
 
 
 
@@ -97,23 +104,23 @@ public class Product  implements  Serializable{
     }
 
     public double getFullPrice() {
-        calcDiscount();
+//        calcDiscount();
         return fullPrice;
     }
 
     public void setFullPrice(double fullPrice) {
         this.fullPrice = fullPrice;
-        calcDiscount();
+//        calcDiscount();
     }
 
     public double getSalePrice() {
-        calcDiscount();
+//        calcDiscount();
         return salePrice;
     }
 
     public void setSalePrice(double salePrice) {
         this.salePrice = salePrice;
-        calcDiscount();
+//        calcDiscount();
     }
 
     public boolean isAvailability() {

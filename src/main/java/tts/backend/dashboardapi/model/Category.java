@@ -1,6 +1,7 @@
 package tts.backend.dashboardapi.model;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 import java.io.Serializable;
 import java.util.List;
@@ -29,6 +30,7 @@ public class Category implements Serializable{
     private List<Product> product;
 
     @Column(name="category_name")
+    @NotBlank(message = "Product name is mandatory")
     private String categoryName;
 
     public Integer getCategory() {
